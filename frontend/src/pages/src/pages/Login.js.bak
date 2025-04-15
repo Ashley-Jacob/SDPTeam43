@@ -1,0 +1,48 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+    if (response.ok) {
+      //window.location.href = "/dashboard";
+      navigate("/dashboard");
+    } else {
+      alert("Login failed");
+    }
+  };
+
+  return (
+    <div className="container mt-5">
+      <div className="card mx-auto" style={{ maxWidth: "400px" }}>
+        <div className="card-body">
+          <h2 className="text-center">Login</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label">Username</label>
+              <input type="text" className="form-control" required onChange={(e) => setUsername(e.target.value)} />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Password</label>
+              <input type="password" className="form-control" required onChange={(e) => setPassword(e.target.value)} />
+            </div>
+            <button type="submit" className="btn btn-primary w-100">Login</button>
+          </form>
+          <p className="text-center mt-3"><a href="/signup">Sign Up</a></p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
+
