@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import placeholder from '../resources/placeholder.jpg';
 import './Dashboard.css';
-import { BiRefresh } from "react-icons/bi";
+//import { BiRefresh } from "react-icons/bi";
 
 const Card = (props) => {
   return (
@@ -20,46 +20,40 @@ const Card = (props) => {
   )
 }
 
-const CardDisplay = ({ data }) => {
-  return (
-    <div className="cards">
-      {data.map((card, index) => (
-        <Card
-          key={index}
-          animal={card.animal}
-          info={card.info}
-          type={card.type}
-          imgURL = {card.imgURL}
-        />
-      ))}
-    </div>
-  );
-};
+
 
 const Dashboard = () => {
   const [cardData, setCardData] = useState([]);
-  // const cardData = [
-  //   { animal: "Bear", info: "April 15, 2025 - 1:45 AM", type: "bulk" },
-  //   { animal: "Bear", info: "April 15, 2025 - 1:45 AM", type: "bulk" },
-  //   { animal: "Cat", info: "April 11, 2025 - 6:49 PM", type: "bulk" },
-  //   { animal: "Bear", info: "April 15, 2025 - 1:45 AM", type: "bulk" },
-  //   { animal: "Bear", info: "April 15, 2025 - 1:45 AM", type: "bulk" },
-  //   { animal: "Bear", info: "April 15, 2025 - 1:45 AM", type: "bulk" },
-  //   { animal: "Cat", info: "April 11, 2025 - 6:49 PM", type: "bulk" },
-  //   { animal: "Bear", info: "April 15, 2025 - 1:45 AM", type: "bulk" },
-  //   { animal: "Cat", info: "April 11, 2025 - 6:49 PM", type: "bulk" },
-  //   { animal: "Bear", info: "April 15, 2025 - 1:45 AM", type: "bulk" },
-  // ];
+
+  const CardDisplay = (props) => {
+  
+    return (
+      <div className="cards">
+        {cardData.map((card, index) => (
+          <Card
+            key={index}
+            animal={card.animal}
+            info={card.info}
+            type={card.type}
+            imgURL = {card.imgUrl}
+          />
+          
+        ))}
+      </div>
+    );
+  };
 
   const refreshApp = async () => 
   {
-    const response = await fetch("IP/geturls"); 
-    const imagePaths = await response.json(); 
+    const response = await fetch("http://localhost:5000/geturls"); 
+    const imagePaths = (await response.json())["urls"]; 
 
     const updatedData = imagePaths.map(path => {
-        const fullUrl = `IP/geturls${path}`;
-        const animal = "bear"
-        const dateStr = "April 13, 2025 - 2:13 AM"
+        const fullUrl = `http://localhost:5000/${path.url}`;
+        const animal = path.animal
+        const dateStr = path.date
+
+        console.log(fullUrl)
 
         return {
           animal: animal,
@@ -79,12 +73,11 @@ const Dashboard = () => {
       </div>
       <div className='refresh-button'>
         <button onClick = {refreshApp}>
-          <BiRefresh />
         </button>
       </div>
       <div className="notifications">
         <div className="latest-card">
-          <img src={placeholder} alt="latest detection" style={{ cursor: 'pointer' }} onClick={() => window.open(placeholder, '_blank')} />
+          <img src="http://localhost:5000/static/camera.png" alt="latest detection" style={{ cursor: 'pointer' }} onClick={() => window.open(placeholder, '_blank')} />
         </div>
         <div className="update-text">
           <div className="update-title">Latest Updates</div>

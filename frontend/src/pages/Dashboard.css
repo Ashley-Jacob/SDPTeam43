@@ -1,5 +1,5 @@
 .dash-content {
-    background-color: #191919;
+    background-color: #323232ff;
     height: 100%;
     justify-content: center;
     overflow: auto;
@@ -10,9 +10,12 @@
 .img-card {
     margin: 10px;
     border: none;
-    color: #cfcfcf;
+    color: #323232ff;
     position: relative;
     display: inline-block;
+    background-color: #ffeb89ff;
+    border-radius: 10px;
+    width: 300px;
 }
 
 .last-img {
@@ -24,15 +27,16 @@
 }
 
 .last-img img {
-    height: 400px;
+    height: auto;
     width: auto;
     border-radius: 10px;
 }
 
 .img-card img {
-    height: 200px;
-    width: auto;
-    border-radius: 10px;
+    height: auto;
+    width: 300px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 .page-name {
@@ -49,20 +53,20 @@
 }
 
 .cards {
-    background-color: transparent;
-    flex-wrap: wrap;
-    display: flex;
+    display: grid;
     margin-bottom: 50px;
-    justify-content: center;
+    grid-template-columns: repeat(4, auto);
+    justify-self: center;
     align-items: center;
+    align-self: center;
 }
 
 .text {
     align-items: center;
     justify-content: center;
     align-content: center;
-    margin-left: 10px;
     font-size: 20px;
+    padding: 10px;
 }
 
 .text span {
