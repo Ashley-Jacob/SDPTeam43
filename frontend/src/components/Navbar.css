@@ -1,0 +1,72 @@
+/* Main navbar wrapper */
+.custom-navbar {
+  background-color: #1e1e1e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  color: #eee;
+  font-family: 'Arial Black', sans-serif;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+/* Left nav links */
+.nav-left a,
+.nav-left button {
+  margin-right: 1.5rem;
+  text-decoration: none;
+  color: #ccc;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+/* Hover effect for nav links and buttons */
+.nav-left a:hover,
+.nav-left button:hover {
+  color: #fdf07b; /* soft yellow */
+}
+
+/* Yellow circle "Account" button on the right */
+.nav-profile-circle {
+  width: 40px;
+  height: 40px;
+  background-color: #fdf07b;
+  border-radius: 50%;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+/* Circle hover bounce */
+.nav-profile-circle:hover {
+  transform: scale(1.1);
+}
+
+/* Optional tooltip-like label on hover */
+.nav-profile-circle::after {
+  content: "Account";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  color: #ccc;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.nav-profile-circle:hover::after {
+  opacity: 1;
+}
+
+/* Make sure the tooltip is relative to the navbar */
+.nav-profile-circle {
+  position: relative;
+}
+
