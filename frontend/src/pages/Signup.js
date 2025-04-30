@@ -24,6 +24,12 @@ const Signup = () => {
   };
 
   return (
+    <div style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh"
+    }}>
     <div className="auth-container signup">
       <div className="auth-header">
         <h2>Sign Up</h2>
@@ -51,6 +57,7 @@ const Signup = () => {
         <button type="submit">Submit</button>
       </form>
       <p className="switch-link"><a href="/login">Already have an account? Log in</a></p>
+    </div>
     </div>
   );
 };

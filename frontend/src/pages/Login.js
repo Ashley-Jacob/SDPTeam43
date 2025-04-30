@@ -23,9 +23,15 @@ const Login = () => {
   }, [isAuthenticated, navigate]);
 
   return (
+    <div style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh"
+    }}>
     <div className="auth-container login">
       <div className="auth-header">
-        <h2>Login</h2>
+        <h2>Log In</h2>
         <div className="dots"><div></div><div></div><div></div></div>
       </div>
       <form onSubmit={handleLogin}>
@@ -50,6 +56,7 @@ const Login = () => {
         <button type="submit">Submit</button>
       </form>
       <p className="switch-link"><a href="/signup">Don't have an account? Sign up</a></p>
+    </div>
     </div>
   );
 };
