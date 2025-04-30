@@ -17,8 +17,8 @@ const Navbar = () => {
       <div className="nav-left">
         {isAuthenticated ? (
           <>
-            <Link to="/dashboard">Detections</Link>
-            <Link to="/config">Configure</Link>
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/config">Settings</Link>
             <button onClick={handleLogout}>Logout</button>
           </>
         ) : (

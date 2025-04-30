@@ -4,7 +4,10 @@
   padding: 2rem;
   border-radius: 30px;
   width: 400px;
-  margin: 5rem auto;
+  /*margin: 5rem auto;*/
+  margin: auto;
+  overflow: hidden;
+  max-height: 95vh;
   font-family: 'Arial Black', sans-serif;
   box-shadow: 0 0 10px #000;
   position: relative;
@@ -71,9 +74,9 @@ input {
 }
 
 /* Submit button */
-button {
+button[type="submit"] {
   background-color: black;
-  color: #fdf07b;
+  /*color: #fdf07b;*/
   font-weight: bold;
   font-size: 1rem;
   padding: 0.6rem 2rem;
@@ -90,8 +93,18 @@ button:hover {
   background-color: #222;
 }
 
+.auth-container.login button[type="submit"]{
+    color: #fdf07b;
+}
+.auth-container.signup button[type="submit"]{
+    color: #ccc;
+}
+
 /* Link below the form */
-.switch-link {
+.switch-link{
   text-align: center;
   margin-top: 1.5rem;
+}
+.switch-link a{
+  color: #1e1e1e;
 }
