@@ -1,0 +1,16 @@
+Download OpenSSL --> https://slproweb.com/products/Win32OpenSSL.html
+
+In OpenSSL terminal:
+
+	openssl genrsa -out private.key 4096 #private.key is the file the key will be saved to, 4096 is the key size (in bytes)
+
+	openssl req -new -key private.key -out server.csr #server.csr is the file that the Certificate Signing Request will be saved to
+
+	openssl x509 -req -days 365 -in server.csr -signkey private.key -out server.crt #server.crt is the file the Certificate will be saved to
+
+In webserver.py:
+
+	Update "ssl_context" with paths for "server.crt" and "private.key" 	respectively
+
+
+Browsers won't trust self-signed certificates since it's not a trusted Certificate Authority, so you have to manually add the server.crt file to the "Trusted Root Certification Authorities." The certificate is still valid if you don't do this, but your browser will tell you that the server is not secure.

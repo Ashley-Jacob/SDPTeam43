@@ -116,3 +116,23 @@
 .refresh-button {
     margin-right: 0
 }
+
+.refresh {
+    background: #ffd400ff;
+    color: #191919ff;
+    justify-self: center;
+    margin-top: 25px;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 25px;
+    height: 50px;
+    width: 150px;
+    line-height: 50px;
+    display: block;
+    border: none;
+}
+
+.refresh:hover {
+    background: #191919ff;
+    color: #cfcfcfff;
+}

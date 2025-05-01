@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
     return <div>Loading...</div>; // Or show a spinner
   }
 
-  if (isAuthenticated) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 

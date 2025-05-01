@@ -1,15 +1,9 @@
 {
-  "sounds": [
-    "glass"
-  ],
-  "triggerAlarm": [
-    21
-  ],
-  "detect": [
-    21
-  ],
+  "sounds": [],
+  "triggerAlarm": [],
+  "detect": [],
   "genInterval": 20,
   "detInterval": 60,
-  "alarmLen": 1,
+  "alarmLen": 10,
   "imgLimit": 10
 }

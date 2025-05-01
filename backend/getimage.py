@@ -40,11 +40,50 @@ def index():
 @app.route('/geturls', methods=['GET'])
 @cross_origin()
 def getimgurls():
+
+    months = {
+        "01": "January",
+        "02": "February",
+        "03": "March",
+        "04": "April",
+        "05": "May",
+        "06": "June",
+        "07": "July",
+        "08": "August",
+        "09": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December"
+    }
+
     images = pd.read_csv("images.csv")
     imgs = images.values.tolist()
     urls = []
     for img in imgs:
-        urls.append(img[0])
+        obj = {}
+        #urls.append(img[0])
+        data = img[0].split("-")
+        obj["animal"] = data[0][7:]
+
+        hour = int(data[4])
+        half = "AM"
+
+        if hour >= 12 and hour <= 23:
+            half = "PM"
+
+        hour = hour % 12
+
+        if hour == 0:
+            hour = 12
+
+        timeInfo = str(hour) + ":" + data[5] + " " + half
+        date = months[data[2]] + " " + data[3] + ", " + data[1]
+        obj["date"] = date
+        obj["timeInfo"] = timeInfo
+
+        obj["url"] = img[0]
+
+        urls.append(obj)
 
     response = {"urls": urls}
     return jsonify(response), 201

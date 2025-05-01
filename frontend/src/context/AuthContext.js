@@ -6,11 +6,14 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
 
-  const checkAuth = () => {
-    fetch("/api/check-auth", { credentials: "include" })
-      .then((res) => res.json())
-      .then((data) => setIsAuthenticated(data.authenticated))
-      .finally(() => setAuthChecked(true));
+  const checkAuth = async () => {
+    try {
+      const res = await fetch("/api/check-auth", { credentials: "include" });
+      const data = await res.json();
+      setIsAuthenticated(data.authenticated);
+    } finally {
+      setAuthChecked(true);
+    }
   };
 
   useEffect(() => {
@@ -26,7 +29,7 @@ export const AuthProvider = ({ children }) => {
     });
 
     if (res.ok) {
-      checkAuth(); // refresh global state
+      await checkAuth(); // refresh global state
       return true;
     }
 
