@@ -1,17 +1,17 @@
 /* Main form container */
 .auth-container {
-  background: #fdf07b;
+  background: #ffeb89ff;
   padding: 2rem;
   border-radius: 30px;
   width: 400px;
   margin: 5rem auto;
   font-family: 'Arial Black', sans-serif;
-  box-shadow: 0 0 10px #000;
+  box-shadow: 0 0 10px #191919ff;
   position: relative;
 }
 
 .auth-container.signup {
-  background: #ccc;
+  background: #cfcfcf;
 }
 
 /* Header with title and dots */
@@ -33,7 +33,7 @@
 .dots div {
   width: 12px;
   height: 12px;
-  background: black;
+  background: #191919ff;
   border-radius: 50%;
 }
 
@@ -65,29 +65,29 @@ input {
   padding: 0.8rem;
   border: none;
   background: #333;
-  color: white;
+  color: #cfcfcf;
   font-size: 1rem;
   border-radius: 5px;
 }
 
 /* Submit button */
-button {
-  background-color: black;
-  color: #fdf07b;
+.submit {
+  background-color: #191919ff;
+  color: #ffeb89ff;
   font-weight: bold;
   font-size: 1rem;
   padding: 0.6rem 2rem;
   border: none;
-  border-radius: 999px;
+  border-radius: 25px;
   cursor: pointer;
   transition: transform 0.2s ease;
   text-align: center;
   width: auto;
 }
 
-button:hover {
+.submit:hover {
   transform: scale(1.05);
-  background-color: #222;
+  background-color: #323232ff;
 }
 
 /* Link below the form */
