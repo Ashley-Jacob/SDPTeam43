@@ -179,7 +179,7 @@ def create_connection():
             user='Team43',
             password='bearsRcool',
             database='SDPlogin',
-            port=3307 # default is 3306, I'm using 3307 for this MySQL server because of conflicts
+            port=3306 # default is 3306, I'm using 3307 for this MySQL server because of conflicts
         )
         return connection
     except Error as e:

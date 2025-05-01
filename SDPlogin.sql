@@ -3,8 +3,8 @@ CREATE DATABASE sdplogin;
 USE sdplogin;
 
 CREATE TABLE USERPASS(
-    Username varchar(20) NOT NULL,
-    Password varchar(20) NOT NULL,
+    Username varchar(255) NOT NULL,
+    Password varchar(255) NOT NULL,
     PRIMARY KEY(Username)
 );
 
