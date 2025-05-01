@@ -40,12 +40,18 @@ class Detector:
 
 def sound(detector):
     pygame.init()
-
+    '''
     airhorn = pygame.mixer.Sound('C:/Users/rubas/OneDrive/Documents/Random/airhorn.mp3')
     potsnpans = pygame.mixer.Sound('C:/Users/rubas/OneDrive/Documents/Random/potsnpans.mp3')
     laser = pygame.mixer.Sound('C:/Users/rubas/OneDrive/Documents/Random/laser.mp3')
     glass = pygame.mixer.Sound('C:/Users/rubas/OneDrive/Documents/Random/glass.wav')
     whistle = pygame.mixer.Sound('C:/Users/rubas/OneDrive/Documents/Random/whistle.wav')
+    ''' 
+    airhorn = pygame.mixer.Sound('airhorn.mp3')
+    potsnpans = pygame.mixer.Sound('potsnpans.mp3')
+    laser = pygame.mixer.Sound('laser.mp3')
+    glass = pygame.mixer.Sound('glass.wav')
+    whistle = pygame.mixer.Sound('whistle.wav')
 
     sound_options = {
         "airhorn": airhorn,

@@ -2,8 +2,8 @@
   "sounds": [],
   "triggerAlarm": [],
   "detect": [],
-  "genInterval": 20,
-  "detInterval": 60,
-  "alarmLen": 10,
+  "genInterval": 1,
+  "detInterval": 10,
+  "alarmLen": 3,
   "imgLimit": 10
 }

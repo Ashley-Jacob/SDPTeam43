@@ -501,6 +501,63 @@ def getimgurls():
     response = {"urls": urls}
     return jsonify(response), 201
 
+@inst.route("/api/update-account", methods=["POST"])
+@cross_origin(supports_credentials=True, origins=["http://localhost:3000"])
+def update_account():
+    data = request.get_json()
+    new_username = data.get("new_username", "").strip()
+    current_password = data.get("current_password", "").strip()
+    new_password = data.get("new_password", "").strip()
+
+    if "username" not in session:
+        return jsonify({"error": "Not logged in"}), 403
+
+    current_username = session["username"]
+    if not current_password:
+        return jsonify({"error": "Current password required"}), 400
+
+    connection = create_connection()
+    cursor = connection.cursor()
+
+    try:
+        # Fetch current user data
+        query = "SELECT ID, Password FROM USERPASS WHERE Username = %s;"
+        cursor.execute(query, (current_username,))
+        result = cursor.fetchone()
+
+        if not result:
+            return jsonify({"error": "User not found"}), 404
+
+        user_id, stored_password = result
+
+        if stored_password != current_password:
+            return jsonify({"error": "Current password is incorrect"}), 401
+
+        # Change username if needed
+        if new_username and new_username != current_username:
+            cursor.execute("SELECT ID FROM USERPASS WHERE Username = %s;", (new_username,))
+            if cursor.fetchone():
+                return jsonify({"error": "Username already taken"}), 400
+
+            cursor.execute("UPDATE USERPASS SET Username = %s WHERE ID = %s;", (new_username, user_id))
+            session["username"] = new_username  # update session
+
+        # Change password if needed
+        if new_password:
+            cursor.execute("UPDATE USERPASS SET Password = %s WHERE ID = %s;", (new_password, user_id))
+
+        connection.commit()
+        return jsonify({"message": "Account updated successfully"}), 200
+
+    except Exception as e:
+        print(f"Update error: {e}")
+        return jsonify({"error": "Internal server error"}), 500
+
+    finally:
+        cursor.close()
+        connection.close()
+
+
 # Serve React frontend
 @inst.route("/", defaults={"path": ""})
 @inst.route("/<path:path>")
