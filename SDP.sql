@@ -1,11 +1,11 @@
-DROP DATABASE if EXISTS sdplogin;
-CREATE DATABASE sdplogin;
-USE sdplogin;
+DROP DATABASE if EXISTS sdp;
+CREATE DATABASE sdp;
+USE sdp;
 
 CREATE TABLE USERPASS(
 	ID INT AUTO_INCREMENT PRIMARY KEY,
-    Username varchar(20) NOT NULL,
-    Password varchar(20) NOT NULL,
+    Username varchar(255) NOT NULL,
+    Password varchar(255) NOT NULL
 );
 
 INSERT INTO USERPASS (Username, Password)

@@ -49,7 +49,7 @@ class User(UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     connection = create_connection()
-    cursor = connection.cursor()
+    cursor = connection.cursor(buffered=True)
     try:
         cursor.execute("SELECT ID, Username FROM USERPASS WHERE ID = %s", (user_id,))
         row = cursor.fetchone()
@@ -71,110 +71,110 @@ def load_user(user_id):
     return None
 '''
 
-if not os.path.exists(inst.config['UPLOAD_FOLDER']):
-    os.makedirs(inst.config['UPLOAD_FOLDER'])
+# if not os.path.exists(inst.config['UPLOAD_FOLDER']):
+#     os.makedirs(inst.config['UPLOAD_FOLDER'])
 
-if not os.path.exists(r'C:\Users\dalyt\Documents\SDP\signal.txt'):
-    with open('signal.txt', 'w') as f:
-        f.write('')
+# if not os.path.exists(r'C:\Users\dalyt\Documents\SDP\signal.txt'):
+#     with open('signal.txt', 'w') as f:
+#         f.write('')
 
-#logging.basicConfig(level=logging.DEBUG)
-ip = socket.gethostbyname(socket.gethostname()) #host ip
-piserver = '10.66.97.109' # ip address of Raspberry Pi
-whitelist = {ip, piserver} # allowed IP addresses
-temp_db = {'Test':'Password'}
-stop_event = threading.Event()  # stop event to signal threads to exit (fix Keyboard Interrupt issue)
-arr = None
+# #logging.basicConfig(level=logging.DEBUG)
+# ip = socket.gethostbyname(socket.gethostname()) #host ip
+# piserver = '10.66.97.109' # ip address of Raspberry Pi
+# whitelist = {ip, piserver} # allowed IP addresses
+# temp_db = {'Test':'Password'}
+# stop_event = threading.Event()  # stop event to signal threads to exit (fix Keyboard Interrupt issue)
+# arr = None
 
-def send_file_to_server(file_path):
-    with open(file_path, 'rb') as f:
-        files = {'file': f}
-        try:
-            response = requests.post('http://' + piserver + ':5001/upload', files=files)
-            print(f'File sent to server: {response}')
-            return response
-        except Exception as e:
-            print(e)
-    #return response
+# def send_file_to_server(file_path):
+#     with open(file_path, 'rb') as f:
+#         files = {'file': f}
+#         try:
+#             response = requests.post('http://' + piserver + ':5001/upload', files=files)
+#             print(f'File sent to server: {response}')
+#             return response
+#         except Exception as e:
+#             print(e)
+#     #return response
 
-def send_signal_to_server(signal):
-    try:
-        response = requests.post('http://' + piserver + ':5001/upload', json={'signal': signal})
-        print(f'Signal <{signal}> sent to server: {response}')
-        return response
-    except Exception as e:
-        print(e)
+# def send_signal_to_server(signal):
+#     try:
+#         response = requests.post('http://' + piserver + ':5001/upload', json={'signal': signal})
+#         print(f'Signal <{signal}> sent to server: {response}')
+#         return response
+#     except Exception as e:
+#         print(e)
 
-def run():
-    ssl_context = (r'C:\Users\dalyt\Documents\SDP\server.crt', r'C:\Users\dalyt\Documents\SDP\private.key')
-    inst.run(host=ip, port=5000, use_reloader=False, ssl_context=ssl_context, debug=True) # port 5000 used for development
+# def run():
+#     ssl_context = (r'C:\Users\dalyt\Documents\SDP\server.crt', r'C:\Users\dalyt\Documents\SDP\private.key')
+#     inst.run(host=ip, port=5000, use_reloader=False, ssl_context=ssl_context, debug=True) # port 5000 used for development
 
-def start_yolo():
-    #yolo = subprocess.run(["python", "yolo_for_server.py"], capture_output=True)
-    #yolo = subprocess.Popen(["python", "yolo_for_server.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    yolo = subprocess.Popen(['python', 'yolo_for_server.py'], stdout=sys.stdout, stderr=sys.stderr, text=True)
-    #atexit.register(yolo.terminate)
+# def start_yolo():
+#     #yolo = subprocess.run(["python", "yolo_for_server.py"], capture_output=True)
+#     #yolo = subprocess.Popen(["python", "yolo_for_server.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+#     yolo = subprocess.Popen(['python', 'yolo_for_server.py'], stdout=sys.stdout, stderr=sys.stderr, text=True)
+#     #atexit.register(yolo.terminate)
 
-def yolo(arr):
-    #atexit.register(cv2.destroyAllWindows())
-    while not stop_event.is_set():
-        while True:
-            while True:
-                timestamp = time.strftime('%m-%d-%Y_%H-%M-%S')
-                init_time = time.time()
-                print(timestamp)
-                #file_path = os.path.join(fr'C:\Users\dalyt\Documents\SDP\uploads', f'image_{timestamp}.jpg')
-                file_path = os.path.join(fr'C:\Users\dalyt\Documents\SDP\uploads', f'maybebear.jpg')
-                time.sleep(1) #allow time for the file to be sent from pi
-                try:
-                    #image = Image.open(file_path)
-                    #frame = np.array(image)
-                    frame = arr
-                    frame = frame[:,:,:3]
-                    break
-                except FileNotFoundError as e:
-                    print(e)
+# def yolo(arr):
+#     #atexit.register(cv2.destroyAllWindows())
+#     while not stop_event.is_set():
+#         while True:
+#             while True:
+#                 timestamp = time.strftime('%m-%d-%Y_%H-%M-%S')
+#                 init_time = time.time()
+#                 print(timestamp)
+#                 #file_path = os.path.join(fr'C:\Users\dalyt\Documents\SDP\uploads', f'image_{timestamp}.jpg')
+#                 file_path = os.path.join(fr'C:\Users\dalyt\Documents\SDP\uploads', f'maybebear.jpg')
+#                 time.sleep(1) #allow time for the file to be sent from pi
+#                 try:
+#                     #image = Image.open(file_path)
+#                     #frame = np.array(image)
+#                     frame = arr
+#                     frame = frame[:,:,:3]
+#                     break
+#                 except FileNotFoundError as e:
+#                     print(e)
 
-            results = model(frame, verbose=False)
-            annotated_frame = results[0].plot()
-            bear_class_id = 21
-            detections = results[0].boxes
-            for detection in detections:
-                if detection.cls == bear_class_id:
-                    end_time = time.time()
-                    print(f'Runtime: {end_time - init_time}')
-                    print("Bear Detected")
-                    send_signal_to_server('bear')
-                    break
-                else: send_signal_to_server('no bear')
+#             results = model(frame, verbose=False)
+#             annotated_frame = results[0].plot()
+#             bear_class_id = 21
+#             detections = results[0].boxes
+#             for detection in detections:
+#                 if detection.cls == bear_class_id:
+#                     end_time = time.time()
+#                     print(f'Runtime: {end_time - init_time}')
+#                     print("Bear Detected")
+#                     send_signal_to_server('bear')
+#                     break
+#                 else: send_signal_to_server('no bear')
     
 
-def background():
-    while not stop_event.is_set():
-        while True:
-            with open (r'C:\Users\dalyt\Documents\SDP\signal.txt', 'r+') as f:
-                try:
-                    msvcrt.locking(f.fileno(), msvcrt.LK_LOCK, os.path.getsize(f.name)) # for windows
-                    #fcntl.flock(f, fcntl.LOCK_EX) # for linux
-                    if f.read() == 'bear':
-                    #if True:
-                        #send_file_to_server(r'C:\Users\dalyt\Documents\SDP\signal.txt')
-                        send_signal_to_server('bear')
-                        f.seek(0) # move file pointer to beginning of file
-                        print(f'After Seek: {f.read()}')
-                        f.truncate() # clear everything
-                        print(f'After Truncate: {f.read()}')
-                        f.write('')
-                        print(f'After Write: {f.read()}')
-                        msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, os.path.getsize(f.name)) # for windows
-                        #fcntl.flock(f, fcntl.LOCK_UN) # for linux
-                    else: 
-                        send_signal_to_server('no_bear')
-                    break
-                except PermissionError as e:
-                    print(f'Webserver: {e}')
-                    time.sleep(1)
-        time.sleep(2)
+# def background():
+#     while not stop_event.is_set():
+#         while True:
+#             with open (r'C:\Users\dalyt\Documents\SDP\signal.txt', 'r+') as f:
+#                 try:
+#                     msvcrt.locking(f.fileno(), msvcrt.LK_LOCK, os.path.getsize(f.name)) # for windows
+#                     #fcntl.flock(f, fcntl.LOCK_EX) # for linux
+#                     if f.read() == 'bear':
+#                     #if True:
+#                         #send_file_to_server(r'C:\Users\dalyt\Documents\SDP\signal.txt')
+#                         send_signal_to_server('bear')
+#                         f.seek(0) # move file pointer to beginning of file
+#                         print(f'After Seek: {f.read()}')
+#                         f.truncate() # clear everything
+#                         print(f'After Truncate: {f.read()}')
+#                         f.write('')
+#                         print(f'After Write: {f.read()}')
+#                         msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, os.path.getsize(f.name)) # for windows
+#                         #fcntl.flock(f, fcntl.LOCK_UN) # for linux
+#                     else: 
+#                         send_signal_to_server('no_bear')
+#                     break
+#                 except PermissionError as e:
+#                     print(f'Webserver: {e}')
+#                     time.sleep(1)
+#         time.sleep(2)
 
 #flask_thread = threading.Thread(target=run)
 #flask_thread.start()
@@ -189,8 +189,9 @@ def create_connection():
             host='localhost',
             user='Team43',
             password='bearsRcool',
-            database='SDPlogin',
-            port='3307' # default is 3306, I'm using 3307 for this MySQL server because of conflicts
+            database='SDP',
+            port='3306', # default is 3306, I'm using 3307 for this MySQL server because of conflicts
+            auth_plugin='mysql_native_password'
         )
         if connection.is_connected():
             print('Connection Successful')
@@ -200,7 +201,7 @@ def create_connection():
         return None
 
 def execute_query(connection, query): # executes a SQL query in the database
-    cursor = connection.cursor()
+    cursor = connection.cursor(buffered=True)
     try:
         cursor.execute(query)
         connection.commit()
@@ -211,10 +212,10 @@ def execute_query(connection, query): # executes a SQL query in the database
         cursor.close()
         connection.close
 
-@inst.before_request # IP filter (makeshift firewall)
-def limit_remote_addr():
-    if request.remote_addr not in whitelist:
-        abort(403) # "Forbidden" HTTP status code
+# @inst.before_request # IP filter (makeshift firewall)
+# def limit_remote_addr():
+#     if request.remote_addr not in whitelist:
+#         abort(403) # "Forbidden" HTTP status code
 
 # Signup API 
 @inst.route("/api/signup", methods=["POST"])
@@ -234,7 +235,7 @@ def signup():
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     connection = create_connection()
-    cursor = connection.cursor()
+    cursor = connection.cursor(buffered=True)
     try:
         query = "INSERT into userpass (Username, Password) VALUES (%s, %s);"
         cursor.execute(query, (username, hashed_password))
@@ -286,7 +287,7 @@ def login():
     #hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     connection = create_connection()
-    cursor = connection.cursor()
+    cursor = connection.cursor(buffered=True)
     try:
         #query = "SELECT Password FROM userpass WHERE Username = %s;"
         query = "SELECT ID, Password FROM USERPASS WHERE Username = %s;" #get id and password
@@ -295,7 +296,7 @@ def login():
         #print(username)
         #print(type(username))
         #print(queried_password)
-        cursor.fetchall() # make sure there's no leftover rows in the query result set (prevent errors)
+        #cursor.fetchall() # make sure there's no leftover rows in the query result set (prevent errors)
         #if temp_db[username]:
             #if temp_db[username] == password:
                 #session['username'] = username
@@ -327,7 +328,7 @@ def login():
         '''
     except Error as e:
         print(f"Error: '{e}'")
-    #finally:
+    finally:
         cursor.close()
         connection.close()
     '''
@@ -426,7 +427,7 @@ def update_account():
         return jsonify({"error": "Current password required"}), 400
 
     connection = create_connection()
-    cursor = connection.cursor()
+    cursor = connection.cursor(buffered=True)
 
     try:
         #Step 1: Get current user's username and password hash
@@ -488,19 +489,19 @@ def serve_react_app(path):
 
 # Run Flask Server
 if __name__ == "__main__":
-    #inst.run(host="0.0.0.0", port=5000, debug=True)
-    try:
-        flask_thread = threading.Thread(target=run, daemon=True)
-        flask_thread.start()
-        #yolo_thread = threading.Thread(target=start_yolo, daemon=True)
-        #yolo_thread = threading.Thread(target=yolo, daemon=True)
-        #yolo_thread.start()
-        #background_thread = threading.Thread(target=background, daemon=True)
-        #background_thread.start()
+    inst.run(host="0.0.0.0", port=5000, debug=True)
+    # try:
+    #     flask_thread = threading.Thread(target=run, daemon=True)
+    #     flask_thread.start()
+    #     #yolo_thread = threading.Thread(target=start_yolo, daemon=True)
+    #     #yolo_thread = threading.Thread(target=yolo, daemon=True)
+    #     #yolo_thread.start()
+    #     #background_thread = threading.Thread(target=background, daemon=True)
+    #     #background_thread.start()
 
-        while not stop_event.is_set():
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print('--Keyboard Interrupt--')
-        stop_event.set()
-        time.sleep(2)
+    #     while not stop_event.is_set():
+    #         time.sleep(1)
+    # except KeyboardInterrupt:
+    #     print('--Keyboard Interrupt--')
+    #     stop_event.set()
+    #     time.sleep(2)
