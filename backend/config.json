@@ -1,7 +1,11 @@
 {
   "sounds": [],
-  "triggerAlarm": [],
-  "detect": [],
+  "triggerAlarm": [
+    0
+  ],
+  "detect": [
+    0
+  ],
   "genInterval": 20,
   "detInterval": 60,
   "alarmLen": 10,
